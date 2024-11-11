@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Scheme Finder</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Stylesheet -->
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #0680f9;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            max-width: 1200px;
+            width: 100%;
+            padding: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .form-section, .result-section {
+            flex: 1 1 450px;
+            background-color: #fafafa;
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        select[multiple] {
+            height: 150px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #1e90ff;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background-color: #1c86ee;
+        }
+
+        .scheme-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.2s ease;
+        }
+
+        .scheme-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .scheme-card h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #1e90ff;
+        }
+
+        .scheme-card p {
+            margin-bottom: 8px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .scheme-card a {
+            display: inline-block;
+            margin-top: 10px;
+            color: #fff;
+            background-color: #1e90ff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            font-weight: 600;
+        }
+
+        .scheme-card a:hover {
+            background-color: #1c86ee;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            .form-section, .result-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Form Section -->
+        <div class="form-section">
+            <h1>Health Scheme Provider</h1>
+            <form id="schemeForm">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" name="age" required min="1" max="120" placeholder="Enter your age">
+                </div>
+
+                <div class="form-group">
+                    <label for="gender">Gender:</label>
+                    <select id="gender" name="gender" required>
+                        <option value="" disabled selected>Select your gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="others">Others</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="income">Income:</label>
+                    <select id="income" name="income" required>
+                        <option value="" disabled selected>Select your income level</option>
+                        <option value="bpl">Below Poverty Line (BPL)</option>
+                        <option value="apl">Above Poverty Line (APL)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="caste">Caste:</label>
+                    <select id="caste" name="caste" required>
+                        <option value="" disabled selected>Select your caste</option>
+                        <option value="general">General</option>
+                        <option value="obc">OBC</option>
+                        <option value="sc">SC</option>
+                        <option value="st">ST</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="aadhar">Aadhar Number:</label>
+                    <input type="text" id="aadhar" name="aadhar" required placeholder="Enter your Aadhar number">
+                </div>
+
+                <div class="form-group">
+                    <label for="location">City Location:</label>
+                    <select id="location" name="location" required>
+                        <option value="" disabled selected>Select your location</option>
+                        <option value="urban">Urban</option>
+                        <option value="rural">Rural</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="occupation">Occupation:</label>
+                    <input type="text" id="occupation" name="occupation" required pattern="[A-Za-z\s]+"
+                    placeholder="Enter your occupation">
+                </div>
+
+                <div class="form-group">
+                    <label for="medical">Medical Conditions:</label>
+                    <select id="medical" name="medical" multiple>
+                        <option value="pregnancy">Pregnancy</option>
+                        <option value="genetic">Genetic Disorder</option>
+                        <option value="diabetes">Diabetes</option>
+                        <option value="heart">Heart Disease</option>
+                        <option value="tuberculosis">Tuberculosis</option>
+                        <option value="leprosy">Leprosy</option>
+                        <option value="vector-borne">Vector-borne Diseases</option>
+                        <option value="disability">Disability</option>
+                        <option value="chronic">Chronic Illness</option>
+                    </select>
+                </div>
+
+                <button type="submit">Find Schemes</button>
+            </form>
+        </div>
+
+        <!-- Result Section -->
+        <div class="result-section">
+            <h1>Eligible Schemes</h1>
+            <div id="resultContainer">
+                <p>Fill out the form to see eligible schemes.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        document.getElementById('schemeForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+        
+            const name = document.getElementById('name').value.trim();
+            const age = parseInt(document.getElementById('age').value);
+            const gender = document.getElementById('gender').value;
+            const income = document.getElementById('income').value;
+            const caste = document.getElementById('caste').value;
+            const aadhar = document.getElementById('aadhar').value.trim();
+            const location = document.getElementById('location').value;
+            const occupation = document.getElementById('occupation').value.trim();
+            const medicalConditions = Array.from(document.getElementById('medical').selectedOptions).map(option => option.value);
+
+            
+            const aadharPattern = /^\d{12}$/;
+            if(!aadharPattern.test(aadhar)) {
+                alert('Please enter a valid 12-digit Aadhar number.');
+                return;
+            }
+
+           
+            const schemes = [
+                {
+                    name: "Ayushman Bharat (PM-JAY)",
+                    eligibility: "Families identified by the SECC 2011, Socio-economic status",
+                    ageRange: "All ages",
+                    genders: ["male", "female", "other"],
+                    coverage: "Up to ₹5 lakh per family per year for secondary and tertiary care",
+                    treatments: "Hospitalization, surgeries, maternity, chronic diseases",
+                    link: "https://abdm.gov.in/",
+                    applicable: () => income === 'bpl'
+                },
+                {
+                    name: "Rashtriya Swasthya Bima Yojana (RSBY)",
+                    eligibility: "BPL families, unorganized sector workers",
+                    ageRange: "All ages",
+                    genders: ["male", "female", "other"],
+                    coverage: "Up to ₹30,000 per family per year for hospitalization",
+                    treatments: "Hospitalization, pre-existing diseases",
+                    link: "https://www.india.gov.in/spotlight/rashtriya-swasthya-bima-yojana",
+                    applicable: () => income === 'bpl'
+                },
+                {
+                    name: "Janani Suraksha Yojana (JSY)",
+                    eligibility: "Pregnant women belonging to BPL families",
+                    ageRange: "19 years and above",
+                    genders: ["female"],
+                    coverage: "Financial assistance for institutional delivery",
+                    treatments: "Maternity care, institutional delivery",
+                    link: "https://nhm.gov.in/index1.php?lang=1&level=3&lid=309&sublinkid=841",
+                    applicable: () => gender === 'female' && age >= 19 && income === 'bpl' && medicalConditions.includes('pregnancy')
+                },
+                {
+                    name: "National Health Protection Scheme (NHPS)",
+                    eligibility: "Low-income families as per SECC",
+                    ageRange: "All ages",
+                    genders: ["male", "female", "other"],
+                    coverage: "Up to ₹5 lakh per family per year",
+                    treatments: "Hospitalization, surgeries, critical illness",
+                    link: "https://www.india.gov.in/spotlight/ayushman-bharat-national-health-protection-mission",
+                    applicable: () => income === 'bpl'
+                },
+                {
+                    name: "Deendayal Antyodaya Yojana (DAY-NULM)",
+                    eligibility: "Urban poor families",
+                    ageRange: "All ages",
+                    genders: ["male", "female", "other"],
+                    coverage: "Health insurance coverage for urban poor",
+                    treatments: "Primary, secondary, and tertiary care",
+                    link: "https://nulm.gov.in/",
+                    applicable: () => income === 'bpl' && location === 'urban'
+                },
+                {
+                    name: "Mahatma Jyotiba Phule Jan Arogya Yojana (MJPJAY)",
+                    eligibility: "Families holding yellow or orange ration cards",
+                    ageRange: "All ages",
+                    genders: ["male", "female", "other"],
+                    coverage: "Up to ₹1.5 lakh per family per year for hospitalization and treatment",
+                    treatments: "Critical illness, hospitalization, surgeries, chronic diseases",
+                    link: "https://www.jeevandayee.gov.in/",
+                    applicable: () => income === 'bpl'
+                },
+                {
+                    name: "Pradhan Mantri Suraksha Bima Yojana (PMSBY)",
+                    eligibility: "Indian citizens with a bank account",
+                    ageRange: "15-70 years",
+                    genders: ["male", "female", "other"],
+                    coverage: "Accidental death and disability cover up to ₹2 lakh",
+                    treatments: "Accidental death, permanent disability",
+                    link: "https://housing.com/news/all-about-pradhan-mantri-suraksha-bima-yojana/",
+                    applicable: () => age >= 15 && age <= 70
+                },
+                {
+                    name: "Aam Aadmi Bima Yojana (AABY)",
+                    eligibility: "Rural landless households and workers",
+                    ageRange: "18-59 years",
+                    genders: ["male", "female", "other"],
+                    coverage: "₹30,000 for natural death, ₹75,000 for accidental death/disability",
+                    treatments: "Natural death, accidental death, disability",
+                    link: "https://labour.gov.in/schemes/aam-admi-beema-yojana",
+                    applicable: () => age >= 18 && age <= 59 && location === 'rural' && income === 'bpl'
+                },
+                
+            ];
+
+            
+            const applicableSchemes = schemes.filter(scheme => scheme.applicable());
+
+            
+            const resultContainer = document.getElementById('resultContainer');
+            resultContainer.innerHTML = '';
+
+            if (applicableSchemes.length > 0) {
+                applicableSchemes.forEach(scheme => {
+                    const schemeCard = document.createElement('div');
+                    schemeCard.classList.add('scheme-card');
+
+                    schemeCard.innerHTML = `
+                        <h2>${scheme.name}</h2>
+                        <p><strong>Eligibility:</strong> ${scheme.eligibility}</p>
+                        <p><strong>Age Range:</strong> ${scheme.ageRange}</p>
+                        <p><strong>Gender:</strong> ${scheme.genders.map(g => g.charAt(0).toUpperCase() + g.slice(1)).join(', ')}</p>
+                        <p><strong>Coverage:</strong> ${scheme.coverage}</p>
+                        <p><strong>Treatments Covered:</strong> ${scheme.treatments}</p>
+                        <a href="${scheme.link}" target="_blank">Learn More</a>
+                    `;
+
+                    resultContainer.appendChild(schemeCard);
+                });
+            } else {
+                resultContainer.innerHTML = '<p>No applicable schemes found based on your input.</p>';
+            }
+        });
+    </script>
+
+</body>
+</html>
